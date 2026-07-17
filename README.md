@@ -2,6 +2,8 @@
 
 A Streamlit app for chatting with Google's latest **Gemini** models using your own [Google AI Studio](https://aistudio.google.com/apikey) API key.
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ggleapp1pp-k26jfw4c5ku9kwixfbc3gpoogle.streamlit.app/)
+
 If this project is useful to you, consider sponsoring the author
 [![Sponsor me on GitHub](https://img.shields.io/badge/Sponsor%20me%20on-GitHub-EA4AAA?logo=githubsponsors&style=flat-square)](https://github.com/sponsors/gituserc1140)
 
