@@ -130,7 +130,11 @@ _DEFAULT_MODELS = [
 
 
 def fetch_models(api_key: str) -> list[str]:
-    """Return generate-content-capable Gemini model names for the given key."""
+    """Return generate-content-capable Gemini model names for the given key.
+
+    Silently falls back to ``_DEFAULT_MODELS`` if the API call fails for any
+    reason (e.g. invalid key, network error, quota exceeded).
+    """
     try:
         genai.configure(api_key=api_key)
         models = [

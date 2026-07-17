@@ -25,7 +25,7 @@ A Streamlit app for chatting with Google's latest **Gemini** models using your o
 
 ## Deployment
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gleapp1pp-k26jfw4c5ku9kwixfbc3gpoogle.streamlit.app)
+Deploy directly to [Streamlit Community Cloud](https://streamlit.io/cloud) by connecting your GitHub repository.
 
 ## Sponsor
 
