@@ -2,6 +2,10 @@
 
 A Streamlit app for chatting with Google's latest **Gemini** models using your own [Google AI Studio](https://aistudio.google.com/apikey) API key.
 
+If this project is useful to you, consider [sponsoring the author]
+[![Sponsor me on GitHub](https://img.shields.io/badge/Sponsor%20me%20on-GitHub-EA4AAA?logo=githubsponsors&style=flat-square)](https://github.com/sponsors/gituserc1140)
+
+
 ## Features
 
 - Secure API key input in the sidebar (never stored server-side)
@@ -23,10 +27,6 @@ A Streamlit app for chatting with Google's latest **Gemini** models using your o
    ```
 4. Paste your API key into the sidebar and start chatting!
 
-## Deployment
 
-Deploy directly to [Streamlit Community Cloud](https://streamlit.io/cloud) by connecting your GitHub repository.
 
-## Sponsor
 
-If this project is useful to you, consider [sponsoring the author](https://github.com/sponsors/gituserc1140). 
