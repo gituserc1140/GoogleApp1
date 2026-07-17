@@ -5,9 +5,15 @@ import google.generativeai as genai
 
 _CSS = """
 <style>
+/* ── Google color palette ──────────────────────────────────────── */
+/* Blue   #4285F4  |  Red    #EA4335                               */
+/* Yellow #FBBC05  |  Green  #34A853                               */
+/* Surface #F8F9FA |  Text   #202124  |  Secondary text #5F6368   */
+/* Border  #DADCE0                                                 */
+
 /* ── Page background ───────────────────────────────────────────── */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background: #F8F9FA;
     min-height: 100vh;
 }
 [data-testid="stHeader"] { background: transparent; }
@@ -20,73 +26,89 @@ _CSS = """
 .hero h1 {
     font-size: 2.4rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #34d399, #60a5fa);
+    margin-bottom: 0.3rem;
+    /* Spell out each letter in Google brand colours */
+    background: linear-gradient(
+        90deg,
+        #4285F4  0%  16%,   /* G – blue   */
+        #EA4335 16%  33%,   /* o – red    */
+        #FBBC05 33%  50%,   /* o – yellow */
+        #4285F4 50%  58%,   /* g – blue   */
+        #34A853 58%  75%,   /* l – green  */
+        #EA4335 75% 100%    /* e – red    */
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 0.3rem;
 }
 .hero p {
-    color: #cbd5e1;
+    color: #5F6368;
     font-size: 1.05rem;
     margin-top: 0;
 }
 
 /* ── Response card ─────────────────────────────────────────────── */
 .response-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(96,165,250,0.35);
-    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid #DADCE0;
+    border-left: 4px solid #4285F4;
+    border-radius: 8px;
     padding: 1.4rem 1.6rem;
-    color: #e2e8f0;
+    color: #202124;
     font-size: 1rem;
     line-height: 1.7;
     white-space: pre-wrap;
     word-break: break-word;
     margin-top: 1rem;
+    box-shadow: 0 1px 3px rgba(60,64,67,0.12);
 }
 .response-label {
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #60a5fa;
+    color: #4285F4;
     margin-bottom: 0.4rem;
 }
 
 /* ── Error card ────────────────────────────────────────────────── */
 .error-card {
-    background: rgba(239,68,68,0.12);
-    border: 1px solid rgba(239,68,68,0.45);
-    border-radius: 14px;
+    background: #FFF3F2;
+    border: 1px solid #F5C6C2;
+    border-left: 4px solid #EA4335;
+    border-radius: 8px;
     padding: 1.2rem 1.6rem;
-    color: #fca5a5;
+    color: #C5221F;
     font-size: 0.97rem;
     margin-top: 1rem;
 }
 
 /* ── Buttons ───────────────────────────────────────────────────── */
 [data-testid="stButton"] button {
-    background: linear-gradient(135deg, #059669, #2563eb) !important;
+    background: #4285F4 !important;
     color: #fff !important;
     border: none !important;
-    border-radius: 8px !important;
+    border-radius: 4px !important;
     padding: 0.45rem 1.2rem !important;
     font-weight: 600 !important;
-    transition: opacity 0.2s !important;
+    transition: box-shadow 0.2s, background 0.2s !important;
+    box-shadow: 0 1px 2px rgba(60,64,67,0.30) !important;
 }
-[data-testid="stButton"] button:hover { opacity: 0.85 !important; }
+[data-testid="stButton"] button:hover {
+    background: #1a73e8 !important;
+    box-shadow: 0 2px 6px rgba(60,64,67,0.35) !important;
+}
 
 /* ── Sidebar ───────────────────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background: rgba(15,12,41,0.85);
-    border-right: 1px solid rgba(96,165,250,0.2);
+    background: #FFFFFF;
+    border-right: 1px solid #DADCE0;
 }
 [data-testid="stSidebar"] label,
 [data-testid="stSidebar"] p,
 [data-testid="stSidebar"] span,
-[data-testid="stSidebar"] div { color: #cbd5e1 !important; }
+[data-testid="stSidebar"] div { color: #202124 !important; }
 [data-testid="stSidebar"] h2 {
-    color: #60a5fa !important;
+    color: #4285F4 !important;
     font-size: 1.1rem;
 }
 
@@ -96,27 +118,27 @@ _CSS = """
     width: 100%;
     text-align: center;
     padding: 0.45rem 0;
-    border-radius: 8px;
+    border-radius: 4px;
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none !important;
     margin-bottom: 0.5rem;
-    transition: opacity 0.2s;
+    transition: box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(60,64,67,0.25);
 }
-.ext-btn:hover { opacity: 0.85; }
+.ext-btn:hover { box-shadow: 0 2px 6px rgba(60,64,67,0.35); }
 .btn-github {
-    background: #24292e;
+    background: #202124;
     color: #fff !important;
-    border: 1px solid rgba(255,255,255,0.15);
 }
 .btn-sponsor {
-    background: linear-gradient(135deg, #db61a2, #ea4aaa);
+    background: #EA4335;
     color: #fff !important;
 }
 
 /* ── Warning/info text ─────────────────────────────────────────── */
-[data-testid="stAlert"] p { color: #ffffff !important; }
-[data-testid="stSpinner"] p { color: #60a5fa !important; }
+[data-testid="stAlert"] p { color: #202124 !important; }
+[data-testid="stSpinner"] p { color: #4285F4 !important; }
 </style>
 """
 
