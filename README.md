@@ -1,14 +1,14 @@
-# 🤖 Google AI Studio App
+# Google AI Studio App
 
 A Streamlit app for chatting with Google's latest **Gemini** models using your own [Google AI Studio](https://aistudio.google.com/apikey) API key.
 
 ## Features
 
-- 🔑 Secure API key input in the sidebar (never stored server-side)
-- 🧠 **Dynamic model selection** – available models are fetched live from your API key so you always see what's accessible to you
-- 💬 Free-form prompt text area with a single-click generate button
-- 🎨 Polished dark-gradient UI
-- 🐙 GitHub & ❤️ GitHub Sponsors links
+- Secure API key input in the sidebar (never stored server-side)
+- **Dynamic model selection** – available models are fetched live from your API key so you always see what's accessible to you
+- Free-form prompt text area with a single-click generate button
+- Polished dark-gradient UI
+- GitHub & GitHub Sponsors links
 
 ## Getting started
 
@@ -29,4 +29,4 @@ Deploy directly to [Streamlit Community Cloud](https://streamlit.io/cloud) by co
 
 ## Sponsor
 
-If this project is useful to you, consider [sponsoring the author](https://github.com/sponsors/gituserc1140). ❤️
+If this project is useful to you, consider [sponsoring the author](https://github.com/sponsors/gituserc1140). 
