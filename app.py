@@ -1,3 +1,5 @@
+import re
+
 import streamlit as st
 import google.generativeai as genai
 
@@ -151,7 +153,7 @@ def fetch_models(api_key: str) -> list[str]:
 def main():
     st.set_page_config(
         page_title="Google AI Studio",
-        page_icon="🤖",
+        page_icon=":robot_face:",
         layout="centered",
     )
     st.markdown(_CSS, unsafe_allow_html=True)
@@ -160,7 +162,7 @@ def main():
     st.markdown(
         """
         <div class="hero">
-            <h1>🤖 Google AI Studio</h1>
+            <h1>Google AI Studio</h1>
             <p>Chat with the latest Gemini models using your own API key.</p>
         </div>
         """,
@@ -169,7 +171,7 @@ def main():
 
     # ── Sidebar ────────────────────────────────────────────────────
     with st.sidebar:
-        st.header("⚙️ Settings")
+        st.header("Settings")
 
         api_key_input = st.text_input(
             "Google AI Studio API Key",
@@ -207,12 +209,12 @@ def main():
             <a class="ext-btn btn-github"
                href="https://github.com/gituserc1140/GoogleApp1"
                target="_blank" rel="noopener noreferrer">
-               🐙 View on GitHub
+               View on GitHub
             </a>
             <a class="ext-btn btn-sponsor"
                href="https://github.com/sponsors/gituserc1140"
                target="_blank" rel="noopener noreferrer">
-               ❤️ Sponsor on GitHub
+               Sponsor on GitHub
             </a>
             """,
             unsafe_allow_html=True,
@@ -231,22 +233,44 @@ def main():
         height=140,
     )
 
-    if st.button("✨ Generate", disabled=not prompt.strip()):
+    if st.button("Generate", disabled=not prompt.strip()):
         genai.configure(api_key=api_key)
         with st.spinner("Generating response…"):
             try:
                 model = genai.GenerativeModel(selected_model)
                 response = model.generate_content(prompt.strip())
-                st.markdown('<div class="response-label">🤖 Response</div>', unsafe_allow_html=True)
+                st.markdown('<div class="response-label">Response</div>', unsafe_allow_html=True)
                 st.markdown(
                     f'<div class="response-card">{response.text}</div>',
                     unsafe_allow_html=True,
                 )
             except Exception as exc:
-                st.markdown(
-                    f'<div class="error-card">⚠️ {exc}</div>',
-                    unsafe_allow_html=True,
-                )
+                err_str = str(exc)
+                # Parse retry delay from the error message if present
+                retry_match = re.search(r"retry_delay\s*\{\s*seconds:\s*(\d+)", err_str)
+                retry_seconds = int(retry_match.group(1)) if retry_match else None
+
+                if "429" in err_str or "quota" in err_str.lower() or "RESOURCE_EXHAUSTED" in err_str:
+                    quota_msg = (
+                        "API quota exceeded for this key. "
+                        "You have hit the free-tier rate limit for the Gemini API."
+                    )
+                    if retry_seconds is not None:
+                        unit = "second" if retry_seconds == 1 else "seconds"
+                        quota_msg += f" Please wait {retry_seconds} {unit} before trying again."
+                    quota_msg += (
+                        " To avoid this, use a paid API key or enable billing at "
+                        "https://aistudio.google.com/apikey."
+                    )
+                    st.markdown(
+                        f'<div class="error-card">{quota_msg}</div>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.markdown(
+                        f'<div class="error-card">Error: {exc}</div>',
+                        unsafe_allow_html=True,
+                    )
 
 
 if __name__ == "__main__":
